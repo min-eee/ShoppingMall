@@ -1,8 +1,14 @@
 package com.shop.dto;
 
-import com.shop.entity.User;
+import com.shop.entity.Member;
+import lombok.Getter;
+import lombok.Setter;
 
-public class SessionUser {
+import java.io.Serializable;
+
+@Getter
+@Setter
+public class SessionUser implements Serializable {
 
     private String name;
 
@@ -10,38 +16,14 @@ public class SessionUser {
 
     private String picture;
 
-    public SessionUser(User user){
-        this.name = user.getName();
-        this.email = user.getEmail();
-        this.picture = user.getPicture();
+    public SessionUser(Member member){
+        this.name = member.getName();
+        this.email = member.getEmail();
+        this.picture = member.getPicture();
     }
 
     public SessionUser(){
 
-    }
-
-    public String getName(){
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail(){
-        return email;
-    }
-
-    public void setEmail(String email){
-        this.email = email;
-    }
-
-    public String getPicture(){
-        return picture;
-    }
-
-    public void setPicture(String picture){
-        this.picture = picture;
     }
 
 }

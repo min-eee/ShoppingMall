@@ -5,17 +5,23 @@ import com.shop.dto.MemberFormDto;
 
 import com.shop.dto.MemberModifyDto;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Table(name="member")
-@Getter @Setter
+@Getter
+@Setter
 @ToString
+@NoArgsConstructor
 public class Member extends BaseEntity{
 
     @Id
@@ -24,7 +30,7 @@ public class Member extends BaseEntity{
     private Long id;
 
 
-    @Column(name="email")
+    @Column(name="email", unique = true)
     private String email;
 
     private String password;
@@ -38,6 +44,12 @@ public class Member extends BaseEntity{
 
     private String address;
 
+    private String picture;
+
+    @CreatedDate
+    @Column(updatable = false)
+    private String createTime;
+
     public static Member createMember(MemberFormDto memberFormDto, PasswordEncoder passwordEncoder){
         Member member = new Member();
         member.setName(memberFormDto.getName());
@@ -50,6 +62,11 @@ public class Member extends BaseEntity{
         return member;
     }
 
+    @PrePersist
+    public void saveTime(){
+        this.createTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd hh:mm"));
+    }
+
     public void updateMember(MemberModifyDto memberModifyDto){
         this.name = memberModifyDto.getName();
         this.phone = memberModifyDto.getPhone();
@@ -57,5 +74,17 @@ public class Member extends BaseEntity{
         this.address = memberModifyDto.getAddress();
     }
 
+    public Member(String name, String email, String picture){
+        this.name = name;
+        this.email = email;
+        this.picture = picture;
+    }
+
+    public Member update(String name, String picture){
+        this.name = name;
+        this.picture = picture;
+
+        return this;
+    }
 
 }
