@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+
+<head>
+  <meta name="_csrf" th:content="${_csrf.token}"/>
+  <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+</head>
+
+<div layout:fragment="content">
+
+  <form action="/members/memberDtl/memberModify" role="form" method="post" th:object="${memberModifyDto}">
+    <div style="width: 70%; margin: 20px auto;">
+      <h2>
+        회원 정보 수정
+      </h2>
+    <table class="table">
+      <tbody class="table-group-divider">
+          <input type="hidden" th:field="*{email}" placeholder="이메일을을 입력해주세요.">
+      <tr>
+        <th scope="row">이름</th>
+        <td>
+          <input type="text" th:field="*{name}" placeholder="이름을 입력해주세요.">
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">전화번호</th>
+        <td>
+          <input type="text" th:field="*{phone}" placeholder="전화번호를 입력해주세요.">
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">주소</th>
+        <td>
+          <input type="text" th:field="*{address}" placeholder="주소를 입력해주세요.">
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <div style="text-align: center">
+      <button type="submit" class="btn btn-dark" style="">Submit</button>
+      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+    </div>
+    </div>
+  </form>
+
+</div>
+</html>
